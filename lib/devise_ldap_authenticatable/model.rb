@@ -76,9 +76,13 @@ module Devise
       # callbacks
       #
 
-      # # Called before the ldap record is saved automatically
-      # def ldap_before_save
-      # end
+      # Called before the ldap record is saved automatically
+      def ldap_before_save
+      end
+
+      # Called after the ldap record is saved automatically
+      def ldap_after_save
+      end
 
       # Called after a successful LDAP authentication
       def after_ldap_authentication
@@ -103,8 +107,9 @@ module Devise
           end
 
           if resource && resource.new_record? && resource.valid_ldap_authentication?(attributes[:password])
-            resource.ldap_before_save if resource.respond_to?(:ldap_before_save)
+            resource.ldap_before_save
             resource.save!
+            resource.ldap_after_save
           end
 
           resource
